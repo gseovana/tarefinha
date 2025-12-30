@@ -5,11 +5,11 @@ import { getRepublicas, getRepublicaById } from "../controllers/republica/read.j
 import updateRepublica from "../controllers/republica/update.js"
 import deleteRepublica from "../controllers/republica/delete.js"
 
-// import authMiddleware from "../middlewares/auth.js"
+import authMiddleware from "../middlewares/auth.js"
 
 const routerRepublica = Router()
 
-// routerRepublica.use(authMiddleware)
+routerRepublica.use(authMiddleware)
 
 // CREATE
 routerRepublica.post("/", createRepublica)

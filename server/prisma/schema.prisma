@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PapelUsuarioRepublica {
+  LIDER
+  DECANO
+  MEMBRO
+  AGREGADO
+  CALOURO
+}
+
+model Usuario {
+  id_usuario Int      @id @default(autoincrement())
+  nome       String
+  email      String   @unique
+  senha      String
+
+  // relacionamentos
+  republicas     UsuarioRepublica[]
+  lidera         Republica[]          @relation("LiderRepublica")
+  tarefas        Tarefa[]              @relation("ResponsavelTarefa")
+  historicos     HistoricoTarefa[]
+
+  @@map("usuarios")
+}
+
+model Republica {
+  id_republica   Int     @id @default(autoincrement())
+  nome           String
+  codigo_acesso  String
+
+  id_lider Int
+  lider    Usuario @relation("LiderRepublica", fields: [id_lider], references: [id_usuario])
+
+  usuarios UsuarioRepublica[]
+  tarefas  Tarefa[]
+
+  @@map("republicas")
+}
+
+model UsuarioRepublica {
+  id_usuario   Int
+  id_republica Int
+
+  papel PapelUsuarioRepublica @default(MEMBRO)
+
+  usuario   Usuario   @relation(fields: [id_usuario], references: [id_usuario])
+  republica Republica @relation(fields: [id_republica], references: [id_republica])
+
+  @@id([id_usuario, id_republica])
+  @@map("usuarios_republicas")
+}
+
+model Tarefa {
+  id_tarefa   Int     @id @default(autoincrement())
+  titulo      String
+  descricao   String?
+  frequencia  String
+  status      String
+
+  id_responsavel Int
+  responsavel    Usuario  @relation("ResponsavelTarefa", fields: [id_responsavel], references: [id_usuario])
+
+  id_republica Int
+  republica    Republica @relation(fields: [id_republica], references: [id_republica])
+
+  historicos HistoricoTarefa[]
+
+  @@map("tarefas")
+}
+
+model HistoricoTarefa {
+  id_historico   Int      @id @default(autoincrement())
+  data_conclusao DateTime @default(now())
+
+  id_tarefa  Int
+  tarefa     Tarefa  @relation(fields: [id_tarefa], references: [id_tarefa])
+
+  id_usuario Int
+  usuario    Usuario @relation(fields: [id_usuario], references: [id_usuario])
+
+  @@map("historico_tarefas")
+}

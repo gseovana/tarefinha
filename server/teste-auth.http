@@ -1,0 +1,26 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNzY3MTExMzAwLCJleHAiOjE3NjcxOTc3MDB9.KkShNZjMu8Pww49KFRDD6Coj-02tZC77d92gPdfQxmw
+
+# Criar usuário com hash
+POST http://localhost:3000/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Bixo da Federal",
+  "email": "bixa@ufop.edu.br",
+  "senha": "senha"
+}
+
+###
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "bixa@ufop.edu.br",
+  "senha": "senha"
+}
+
+###
+
+GET http://localhost:3000/republicas
+Authorization: Bearer {{token}}
