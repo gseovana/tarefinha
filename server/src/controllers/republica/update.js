@@ -31,4 +31,4 @@ async function updateRepublica(req, res) {
 }
 
 
-export default updateRepublica
+export { updateRepublica }

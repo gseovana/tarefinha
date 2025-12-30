@@ -1,0 +1,100 @@
+@baseUrl = http://localhost:3000
+
+@tokenLider =
+@tokenMembro =
+
+
+###  Criar Usuário que será o LÍDER
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Senhor Líder",
+  "email": "lider@ufop.edu.br",
+  "senha": "123"
+}
+
+### Login do LÍDER
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "lider@ufop.edu.br",
+  "senha": "123"
+}
+
+###
+
+### Criar Usuário que será o membro
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Bixo Calouro",
+  "email": "calouro@ufop.edu.br",
+  "senha": "123"
+}
+
+### Login do MEMBRO
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "calouro@ufop.edu.br",
+  "senha": "123"
+}
+
+###
+
+### Líder cria República
+
+POST {{baseUrl}}/republicas
+Authorization: Bearer {{tokenLider}}
+Content-Type: application/json
+
+{
+  "nome": "República Toca da Raposa"
+}
+
+###
+
+### Membro tenta entrar na República usando o código de acesso
+POST {{baseUrl}}/republicas/entrar
+Authorization: Bearer {{tokenMembro}}
+Content-Type: application/json
+
+{
+  "codigo_acesso": "{{codigoAcesso}}"
+}
+
+###
+
+### Ver quem são os membros da República
+GET {{baseUrl}}/republicas/5/usuarios
+Authorization: Bearer {{tokenLider}}
+
+###
+
+
+# ==========================================
+# Testes de erro
+# ==========================================
+
+### Membro Tentar entrar de novo 
+POST {{baseUrl}}/republicas/entrar
+Authorization: Bearer {{tokenMembro}}
+Content-Type: application/json
+
+{
+  "codigo_acesso": "{{codigoAcesso}}"
+}
+
+### Lider tentar criar outra republica
+
+POST {{baseUrl}}/republicas
+Authorization: Bearer {{tokenLider}}
+Content-Type: application/json
+
+{
+  "nome": "República Secundária"
+}

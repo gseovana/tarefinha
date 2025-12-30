@@ -28,4 +28,4 @@ async function deleteRepublica(req, res) {
   }
 }
 
-export default deleteRepublica
+export { deleteRepublica }
