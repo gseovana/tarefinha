@@ -1,0 +1,26 @@
+### Criar república
+POST http://localhost:3000/republicas
+Content-Type: application/json
+
+{
+  "nome": "República Gatasul",
+  "codigo_acesso": "ABC123",
+  "id_lider": 6
+}
+
+### Listar repúblicas
+GET http://localhost:3000/republicas
+
+### Buscar república por ID
+GET http://localhost:3000/republicas/2
+
+### Atualizar república
+PUT http://localhost:3000/republicas/1
+Content-Type: application/json
+
+{
+  "nome": "República Gato Místico"
+}
+
+### Deletar república
+DELETE http://localhost:3000/republicas/2
