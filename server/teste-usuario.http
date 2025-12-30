@@ -1,0 +1,23 @@
+### Listar usuários
+GET http://localhost:3000/usuarios
+
+### Criar usuário
+POST http://localhost:3000/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Camile",
+  "email": "cam@email.com",
+  "senha": "123456"
+}
+
+### Atualizar usuário
+PUT http://localhost:3000/usuarios/2
+Content-Type: application/json
+
+{
+  "nome": "Geovana S."
+}
+
+### Deletar usuário
+DELETE http://localhost:3000/usuarios/4
