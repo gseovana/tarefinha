@@ -1,0 +1,146 @@
+@baseUrl = http://localhost:3000
+
+@tokenLider = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImlhdCI6MTc2NzYzODQ2NiwiZXhwIjoxNzY3NzI0ODY2fQ.z0LxgywT6gdMOBccbAzNetCCmaprlPjwpa70rhl2plo
+@tokenMembro = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImlhdCI6MTc2NzYzODU2MywiZXhwIjoxNzY3NzI0OTYzfQ.s-GxFnInlUD2cA9otRh0Dz3ucIla_22qLZkDUCABr5Y
+@tokenEstranho = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTc2NzYzODYzNCwiZXhwIjoxNzY3NzI1MDM0fQ.ag7ALWEi6FhZAv0ARyVokx8Ey9xQ2ClGik3RQXRPhTw
+
+@codigoAcesso = 996763
+
+@idResponsavel = 14
+@idTarefa = 1
+
+
+###
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Senhor Barriga",
+  "email": "lider@gmail.com",
+  "senha": "123"
+}
+
+###
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "lider@gmail.com",
+  "senha": "123"
+}
+
+###
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Chaves do 8",
+  "email": "calouro@gmail.com",
+  "senha": "123"
+}
+
+###
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "calouro@gmail.com",
+  "senha": "123"
+}
+
+###
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Kiko Invejoso",
+  "email": "estranho@gmail.com",
+  "senha": "123"
+}
+
+###
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "estranho@gmail.com",
+  "senha": "123"
+}
+
+###
+POST {{baseUrl}}/republicas
+Authorization: Bearer {{tokenLider}}
+Content-Type: application/json
+
+{
+  "nome": "Vila do Chaves"
+}
+
+###
+POST {{baseUrl}}/republicas/entrar
+Authorization: Bearer {{tokenMembro}}
+Content-Type: application/json
+
+{
+  "codigo_acesso": "{{codigoAcesso}}"
+}
+
+###
+GET {{baseUrl}}/republicas/6/usuarios
+Authorization: Bearer {{tokenLider}}
+
+###
+POST {{baseUrl}}/tarefas
+Authorization: Bearer {{tokenLider}}
+Content-Type: application/json
+
+{
+  "titulo": "Limpar o pátio",
+  "descricao": "Varrer as folhas secas",
+  "frequencia": "SEMANAL"
+}
+
+###
+POST {{baseUrl}}/tarefas
+Authorization: Bearer {{tokenLider}}
+Content-Type: application/json
+
+{
+  "titulo": "Comprar sanduíche de presunto",
+  "frequencia": "UNICA",
+  "id_responsavel": {{idResponsavel}}
+}
+
+###
+GET {{baseUrl}}/tarefas
+Authorization: Bearer {{tokenMembro}}
+
+###
+PUT {{baseUrl}}/tarefas/{{idTarefa}}
+Authorization: Bearer {{tokenMembro}}
+Content-Type: application/json
+
+{
+  "titulo": "Comprar sanduíche e suco",
+  "descricao": "Adicionado suco de tamarindo",
+  "frequencia": "UNICA",
+  "status": "PENDENTE",
+  "id_responsavel": {{idResponsavel}}
+}
+
+###
+PATCH {{baseUrl}}/tarefas/{{idTarefa}}/concluir
+Authorization: Bearer {{tokenMembro}}
+
+###
+GET {{baseUrl}}/tarefas
+Authorization: Bearer {{tokenEstranho}}
+
+###
+POST {{baseUrl}}/republicas/entrar
+Authorization: Bearer {{tokenEstranho}}
+Content-Type: application/json
+
+{
+  "codigo_acesso": "{{codigoAcesso}}"
+}

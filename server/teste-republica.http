@@ -3,7 +3,7 @@ POST http://localhost:3000/republicas
 Content-Type: application/json
 
 {
-  "nome": "República Gatasul",
+  "nome": "República Geovana",
   "codigo_acesso": "ABC123",
   "id_lider": 6
 }

@@ -2,6 +2,7 @@
 
 @tokenLider =
 @tokenMembro =
+@codigoAcesso =
 
 
 ###  Criar Usuário que será o LÍDER

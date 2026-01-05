@@ -70,8 +70,8 @@ model Tarefa {
   frequencia  String
   status      String
 
-  id_responsavel Int
-  responsavel    Usuario  @relation("ResponsavelTarefa", fields: [id_responsavel], references: [id_usuario])
+  id_responsavel Int?
+  responsavel    Usuario?  @relation("ResponsavelTarefa", fields: [id_responsavel], references: [id_usuario])
 
   id_republica Int
   republica    Republica @relation(fields: [id_republica], references: [id_republica])
