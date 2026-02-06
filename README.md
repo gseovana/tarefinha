@@ -38,7 +38,6 @@ Como funcionalidades futuras (ainda no campo dos sonhos), pretende-se incluir:
 - Calendário de tarefas  
 - Filtros avançados  
 - Sistema de recompensas ou multas para incentivar a colaboração e evitar a bagunça
-- Integração com Firebase
 
 ---
 
