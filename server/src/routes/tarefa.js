@@ -9,6 +9,8 @@ import authMiddleware from "../middlewares/auth.js"
 
 const router = Router()
 router.use(authMiddleware)
+console.log("--> FUNÇÃO READ:", getTarefas.name) 
+console.log("--> FUNÇÃO CREATE:", createTarefa.name)
 
 router.post("/", createTarefa)
 router.get("/", getTarefas)

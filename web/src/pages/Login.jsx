@@ -13,12 +13,10 @@ function Login() {
     try {
       const { data } = await api.post('/auth/login', { email, senha });
       
-      // salva os dados
       localStorage.setItem('token', data.token);
       localStorage.setItem('usuario', JSON.stringify(data.usuario));
 
-      // avisa e redireciona
-      toast.success(`Bem-vindo de volta, ${data.usuario.nome.split(' ')[0]}!`);
+      toast.success(`Bem-vindo(a), ${data.usuario.nome.split(' ')[0]}!`);
       navigate('/dashboard'); 
 
     } catch (error) {
@@ -66,11 +64,6 @@ function Login() {
               onChange={(e) => setSenha(e.target.value)}
               required
             />
-            <div className="text-right mt-2">
-                <a href="#" className="text-xs font-semibold text-tertiary hover:text-primary transition-colors">
-                  Esqueceu a senha?
-                </a>
-            </div>
           </div>
 
           <button 
@@ -90,7 +83,6 @@ function Login() {
             </Link>
           </p>
           
-          {/* link para voltar pra Home */}
           <div>
             <Link to="/" className="text-sm text-gray-400 hover:text-primary transition">
               ← Voltar para a página inicial

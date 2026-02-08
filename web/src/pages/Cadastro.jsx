@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify'; // Import do Toast
+import { toast } from 'react-toastify';
 import api from '../services/api';
 
 function Cadastro() {
@@ -20,7 +20,6 @@ function Cadastro() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Validação de senhas iguais
     if (formData.senha !== formData.confirmarSenha) {
         toast.warning("As senhas não conferem!");
         return;
@@ -129,7 +128,6 @@ function Cadastro() {
             </Link>
           </p>
 
-           {/* Link pra voltar pra Home */}
            <div>
             <Link to="/" className="text-sm text-gray-400 hover:text-primary transition">
               ← Voltar para a página inicial

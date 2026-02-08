@@ -31,17 +31,14 @@ function Navbar() {
           // --- VERSÃO VISITANTE ---
           location.pathname === '/' && (
             <>
-              <a href="#sobre" className="hover:text-primary transition">Sobre</a>
-              <a href="#funcionalidades" className="hover:text-primary transition">Funcionalidades</a>
-              <a href="#quem-somos" className="hover:text-primary transition">Quem Somos</a>
+              <a href="#tarefinha" className="hover:text-primary transition">O Tarefinha</a>
+              <a href="#quem-sou" className="hover:text-primary transition">A autora</a>
             </>
           )
         ) : (
           // --- VERSÃO LOGADA (APP) ---
           <>
-            <Link to="/dashboard" className={`transition ${location.pathname === '/dashboard' ? 'text-white font-bold' : 'hover:text-primary'}`}>
-                Dashboard
-            </Link>
+           
           </>
         )}
       </div>

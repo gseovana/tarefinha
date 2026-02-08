@@ -1,5 +1,5 @@
+import express from 'express'
 import "dotenv/config"
-import express from "express"
 import cors from "cors"
 import mainRoutes from "./routes/main.js"
 import authRouter from "./routes/login.js"
@@ -13,7 +13,7 @@ app.use(mainRoutes)
 app.use("/auth", authRouter)
 
 app.get("/", (req, res) => {
-  res.send("API rodando 🚀")
+  res.send("API rodando")
 })
 
 app.listen(3000, () => {

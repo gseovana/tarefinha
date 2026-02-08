@@ -53,5 +53,28 @@ async function getRepublicaById(req, res) {
   }
 }
 
-export { getRepublicas, getRepublicaById } 
+async function getRepublicaUsuario(req, res) {
+  try {
+    const id_usuario = req.user.id
+
+    const associacao = await prisma.usuarioRepublica.findFirst({
+      where: { id_usuario },
+      include: {
+        republica: true
+      }
+    })
+
+    if (!associacao) {
+      return res.status(404).json({ error: "Usuário não possui república" })
+    }
+
+    return res.json(associacao.republica)
+
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: "Erro ao buscar minha república" })
+  }
+}
+
+export { getRepublicas, getRepublicaById, getRepublicaUsuario } 
 

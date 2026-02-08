@@ -5,6 +5,5 @@
 @tailwind utilities;
 
 body {
-  background-color: #f3f4f6; /* Um cinza bem clarinho de fundo padrão */
-  /* Se quiser a imagem de fundo de planta, a gente coloca depois */
+  background-color: #f3f4f6; 
 }

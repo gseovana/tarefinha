@@ -14,10 +14,8 @@ async function createRepublica(req, res) {
       return res.status(400).json({ error: "Você já faz parte de uma república. Saia dela antes de criar uma nova." })
     }
 
-    // Gera um código de acesso
     const codigo_acesso = crypto.randomBytes(3).toString("hex").toUpperCase()
 
-    // Cria a república E adiciona o líder como membro automaticamente
     const result = await prisma.$transaction(async (tx) => {
       const republica = await tx.republica.create({
         data: {
@@ -27,7 +25,6 @@ async function createRepublica(req, res) {
         }
       })
 
-      // Adiciona o líder na tabela
       await tx.usuarioRepublica.create({
         data: {
           id_usuario,

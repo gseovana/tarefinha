@@ -2,45 +2,72 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import api from '../services/api';
 
-// IMPORTAÇÃO DOS COMPONENTES
+// Componentes
 import Onboarding from '../components/Onboarding';
-import TaskBoard from '../components/Taskboard';
+import Taskboard from '../components/Taskboard';
 
 function Dashboard() {
   const [usuario, setUsuario] = useState(null);
   const [temRepublica, setTemRepublica] = useState(false);
   const [loading, setLoading] = useState(true);
   
-  // dados importantes
   const [dadosRepublica, setDadosRepublica] = useState(null);
-  const [republicaCriada, setRepublicaCriada] = useState(null); // usado só no momento da criação
+  const [republicaCriada, setRepublicaCriada] = useState(null);
 
-  // dados Fake de teste
-  const tarefasFake = [];
+  const [tarefas, setTarefas] = useState([]);
 
   useEffect(() => {
-    async function carregarDados() {
+    async function carregarDadosIniciais() {
       try {
         const userStorage = localStorage.getItem('usuario');
+        
         if (userStorage) {
-          setUsuario(JSON.parse(userStorage));
-          
-          // verifica se já tem república salva no navegador
+          const u = JSON.parse(userStorage);
+          setUsuario(u);
+
           const repStorage = localStorage.getItem('republica_ativa');
+          
           if (repStorage) {
-            setDadosRepublica(JSON.parse(repStorage));
+            const rep = JSON.parse(repStorage);
+            setDadosRepublica(rep);
             setTemRepublica(true);
+
+            api.get('/republicas/me')
+               .then(() => { })
+               .catch(() => {
+                   
+                   console.log("Cache inválido! Limpando...");
+                   localStorage.removeItem('republica_ativa');
+                   
+                   
+                   const userAtualizado = { ...u, id_republica: null, republica: null };
+                   localStorage.setItem('usuario', JSON.stringify(userAtualizado));
+                   
+                   setTemRepublica(false);
+                   setDadosRepublica(null);
+               });
+
           } else {
-            setTemRepublica(false);
+            
+            try {
+              const { data } = await api.get('/republicas/me'); 
+              if (data) {
+                setDadosRepublica(data);
+                setTemRepublica(true);
+                localStorage.setItem('republica_ativa', JSON.stringify(data));
+              }
+            } catch (error) {
+              setTemRepublica(false);
+            }
           }
         }
       } catch (error) {
-        console.error("Erro", error);
+        console.error("Erro dashboard", error);
       } finally {
         setLoading(false);
       }
     }
-    carregarDados();
+    carregarDadosIniciais();
   }, []);
 
   // --- LÓGICA DE CRIAR ---
@@ -49,25 +76,21 @@ function Dashboard() {
       const { data } = await api.post('/republicas', { nome });
       toast.success("República criada!");
 
-      // salva os dados para o modal (mostrar código pro lider)
       setRepublicaCriada(data); 
-      // salva os dados para o futuro dashboard
       setDadosRepublica(data);
       localStorage.setItem('republica_ativa', JSON.stringify(data));
       
-      // atualiza usuário
       const novoUsuario = { ...usuario, papel: 'LIDER' };
       localStorage.setItem('usuario', JSON.stringify(novoUsuario));
       setUsuario(novoUsuario);
 
     } catch (error) {
-      toast.error("Erro ao criar.");
+      toast.error("Erro ao criar república.");
     }
   }
 
-  // --- LÓGICA DE FINALIZAR CRIAÇÃO (botão "Ir para tarefas") ---
   function finalizarCricao() {
-    setRepublicaCriada(null); // limpa o estado temporário
+    setRepublicaCriada(null);
     setTemRepublica(true);
   }
 
@@ -88,19 +111,19 @@ function Dashboard() {
       callbackFechaModal();
       
     } catch (error) {
-      toast.error("Erro ao entrar.");
+      toast.error("Erro ao entrar. Verifique o código.");
     }
   }
 
-  if (loading) return <div>Carregando...</div>;
+  if (loading) return <div className="h-screen flex items-center justify-center font-bold text-primary">Carregando...</div>;
 
-  // --- RENDERIZAÇÃO CONDICIONAL ---
+  // --- RENDERIZAÇÃO ---
   if (temRepublica) {
     return (
       <TaskBoard 
         usuario={usuario} 
         dadosRepublica={dadosRepublica} 
-        tarefas={tarefasFake} 
+        tarefas={tarefas}
       />
     );
   }
@@ -110,8 +133,8 @@ function Dashboard() {
       usuario={usuario} 
       aoCriar={criarRepublica} 
       aoEntrar={entrarRepublica}
-      republicaCriada={republicaCriada} // passa o dado pro modal de sucesso
-      aoFinalizar={finalizarCricao}     // função pra quando clicar em "Ir"
+      republicaCriada={republicaCriada}
+      aoFinalizar={finalizarCricao}
     />
   );
 }

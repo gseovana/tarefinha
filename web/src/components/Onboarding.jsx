@@ -10,7 +10,6 @@ function Onboarding({ usuario, aoCriar, aoEntrar, republicaCriada, aoFinalizar }
   function handleCriar(e) {
     e.preventDefault();
     aoCriar(nomeRepublica);
-    // não fechar o modal aqui. esperar o sucesso para mostrar o código
   }
 
   function handleEntrar(e) {

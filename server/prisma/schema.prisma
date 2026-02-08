@@ -21,6 +21,13 @@ enum PapelUsuarioRepublica {
   CALOURO
 }
 
+enum Frequencia {
+  NENHUMA
+  DIARIA
+  SEMANAL
+  MENSAL
+}
+
 model Usuario {
   id_usuario Int      @id @default(autoincrement())
   nome       String
@@ -55,6 +62,7 @@ model UsuarioRepublica {
   id_republica Int
 
   papel PapelUsuarioRepublica @default(MEMBRO)
+  data_entrada DateTime @default(now())
 
   usuario   Usuario   @relation(fields: [id_usuario], references: [id_usuario])
   republica Republica @relation(fields: [id_republica], references: [id_republica])
@@ -68,7 +76,8 @@ model Tarefa {
   titulo      String
   descricao   String?
   frequencia  String
-  status      String
+  prazo       DateTime
+  status      Boolean @default(false)
 
   id_responsavel Int?
   responsavel    Usuario?  @relation("ResponsavelTarefa", fields: [id_responsavel], references: [id_usuario])
@@ -76,6 +85,9 @@ model Tarefa {
   id_republica Int
   republica    Republica @relation(fields: [id_republica], references: [id_republica])
 
+  criado_em      DateTime @default(now())
+  atualizado_em  DateTime @updatedAt
+  
   historicos HistoricoTarefa[]
 
   @@map("tarefas")

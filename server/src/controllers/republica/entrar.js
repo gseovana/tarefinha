@@ -29,10 +29,7 @@ async function entrarRepublica(req, res) {
       }
     })
 
-    return res.status(200).json({ 
-      mensagem: "Bem-vindo à república!", 
-      republica: republica.nome 
-    })
+    return res.json(republica) 
 
   } catch (error) {
     console.error(error)
